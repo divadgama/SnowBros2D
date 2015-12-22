@@ -40,12 +40,13 @@ enum update_status
 		 }
 
 // Configuration -----------
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 384
+#define SCREEN_HEIGHT 240
 #define FULLSCREEN false
 #define RESIZABLE true
 #define BORDERLESS false
 #define FULLSCREEN_DESKTOP false
+#define SCREEN_SIZE 3
 #define VSYNC true
 #define TITLE "Snow Bros"
 #define SPRITE_FILE "sprites.png"

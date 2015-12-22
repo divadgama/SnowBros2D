@@ -25,15 +25,14 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH;
-		int height = SCREEN_HEIGHT;
+		int width = SCREEN_WIDTH* SCREEN_SIZE;
+		int height = SCREEN_HEIGHT* SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_SHOWN;
 
 		if(FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
-		// TODO 2: Create options for RESIZABLE, SDL_WINDOW_BORDERLESS, SDL_WINDOW_RESIZABLE,
 		 
 		if (RESIZABLE==true){
 			flags |= SDL_WINDOW_RESIZABLE;
@@ -45,8 +44,6 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		
 		}
-
-		// SDL_WINDOW_FULLSCREEN_DESKTOP (same way as with FULLSCREEN)
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
@@ -65,13 +62,6 @@ bool ModuleWindow::Init()
 	return ret;
 }
 
-bool ModuleWindow::Start(){
-
-	LOG("Start module window");
-
-	return true;
-
-}
 
 // Called before quitting
 bool ModuleWindow::CleanUp()
@@ -79,7 +69,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
-	if(window != NULL)
+	if (window != nullptr)
 	{
 		SDL_DestroyWindow(window);
 	}

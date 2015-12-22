@@ -17,6 +17,7 @@ Application::Application()
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(sound = new ModuleSound());
+	modules.push_back(fade = new ModuleFadeToBlack());
 
 
 	// Game Module logic
@@ -58,7 +59,7 @@ bool Application::Start()
 			ret = (*it)->Start();
 	}
 	if (first_scene != nullptr)
-	//	fade->FadeToBlack(first_scene, nullptr, 3.0f);
+		fade->FadeToBlack(first_scene, nullptr, 3.0f);
 
 	return ret;
 }

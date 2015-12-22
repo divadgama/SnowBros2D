@@ -47,7 +47,7 @@ int main(int argc, char ** argv)
 			else
 			{
 				state = MAIN_START;
-				LOG("Application Update --------------");
+				LOG("Application Start --------------");
 			}
 
 			break;
@@ -63,7 +63,7 @@ int main(int argc, char ** argv)
 			else
 			{
 				state = MAIN_PREUPDATE;
-				LOG("Application Update --------------");
+				LOG("Application PreUpdate --------------");
 			}
 
 			break;
