@@ -10,6 +10,7 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleScene;
 class ModuleSound;
+class ModuleFadeToBlack;
 
 class Application
 {
@@ -30,13 +31,16 @@ public:
 	ModuleWindow* window;
 	ModuleTextures* textures;
 	ModuleInput* input;
-	ModuleScene* scene;
+	
 	ModuleSound* sound;
+	ModuleFadeToBlack* fade;
 
+	//module logic game
+	ModuleScene* scene;
 private:
 
 	std::list<Module*> modules;
-
+	Module* first_scene = nullptr;
 };
 
 extern Application* App;

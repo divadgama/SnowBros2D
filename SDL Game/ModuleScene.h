@@ -10,7 +10,7 @@
 class ModuleScene : public Module
 {
 public:
-	ModuleScene();
+	ModuleScene(bool start_enabled = true);
 	~ModuleScene();
 
 	bool Init();

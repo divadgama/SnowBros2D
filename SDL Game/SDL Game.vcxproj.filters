@@ -11,6 +11,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{ad89cf24-f35e-4d0c-90e5-820c054c274d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Module">
+      <UniqueIdentifier>{f3236676-894a-4c97-8345-2d322da6e239}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleInput.h">
@@ -34,10 +37,22 @@
     <ClInclude Include="Globals.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleScene.h">
+    <ClInclude Include="ModuleSound.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSound.h">
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFadeToBlack.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,10 +78,16 @@
     <ClCompile Include="log.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleScene.cpp">
+    <ClCompile Include="ModuleSound.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSound.cpp">
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFadeToBlack.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

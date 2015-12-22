@@ -1,7 +1,7 @@
 #include "ModuleScene.h"
 #include "Application.h"
 
-ModuleScene::ModuleScene()
+ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
 {
 }
 

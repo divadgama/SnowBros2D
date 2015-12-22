@@ -6,16 +6,35 @@ class Module
 {
 public:
 
-	Module()
+	Module(bool active = true) : active(active)
+	{}
+
+	bool IsEnabled() const
 	{
+		return active;
 	}
 
+	bool Enable()
+	{
+		if (active == false)
+			return active = Start();
+
+		return true;
+	}
+
+	bool Disable()
+	{
+		if (active == true)
+			return active = !CleanUp();
+
+		return true;
+	}
 	virtual bool Init() 
 	{
 		return true; 
 	}
 
-	// TODO 3: Create a new method "Start()" that should be calling all modules just before the first frame
+	
 	virtual bool Start(){ 
 
 		return true;
@@ -40,4 +59,10 @@ public:
 	{ 
 		return true; 
 	}
+	//check colaider module
+	//virtual void OnCollision(Collider* a, Collider* b)
+	//{}
+
+private:
+	bool active = true;
 };
