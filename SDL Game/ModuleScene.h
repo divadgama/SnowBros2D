@@ -13,7 +13,6 @@ public:
 	ModuleScene(bool start_enabled = true);
 	~ModuleScene();
 
-	bool Init();
 	bool Start();
 	update_status Update();
 	bool CleanUp();
@@ -21,11 +20,5 @@ public:
 
 private:
 	SDL_Texture* texturePlayer=NULL;
-	Mix_Music *musicLevel1= NULL;
-	Mix_Chunk *soundJump = NULL;
-
-public:
-	bool Jump();
-
 };
 

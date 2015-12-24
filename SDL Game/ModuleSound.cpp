@@ -1,13 +1,15 @@
-
+#include "Globals.h"
+#include "Application.h"
 #include "ModuleSound.h"
 #include "SDL/include/SDL.h"
 
 #include "SDL_mixer/include/SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/lib/x86/SDL2_mixer.lib")
 
-ModuleSound::ModuleSound()
-{
-}
+using namespace std;
+ModuleSound::ModuleSound(bool start_enabled) : Module(start_enabled)
+{}
+
 
 
 ModuleSound::~ModuleSound()
@@ -16,79 +18,136 @@ ModuleSound::~ModuleSound()
 
 bool ModuleSound::Init(){
 
-	// init SDL AUDIO
-	if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-		LOG("No se pudo iniciar SDL: %s\n", SDL_GetError());
-		return false;
+	LOG("Loading Audio Mixer");
+	bool ret = true;
+	SDL_Init(0);
+
+	if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
+	{
+		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
+		ret = false;
 	}
 
-	if (Mix_OpenAudio(22050, AUDIO_S16, 2, 4096)) {
-		LOG("No inint SDL_mixer %s\n", Mix_GetError());
-		return false;
+	// load support for the OGG format
+	int flags = MIX_INIT_OGG;
+	int init = Mix_Init(flags);
+
+	if ((init & flags) != flags)
+	{
+		LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
+		ret = false;
+	}
+
+	//Initialize SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		ret = false;
 	}
 
 	return true;
 }
 
-
-bool ModuleSound::Start(){
-	
-
-	return true;
-}
-
-Mix_Music* const ModuleSound::LoadMusicLevel(const char* path)
+// Called before quitting
+bool ModuleSound::CleanUp()
 {
-	Mix_Music* musicLevel = NULL;
+	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
 
-	musicLevel = Mix_LoadMUS(path);
-	if (musicLevel == NULL) {
-		LOG("Problem load music %s\n", Mix_GetError());
-		return NULL;
+	if (music != nullptr)
+	{
+		Mix_FreeMusic(music);
 	}
 
-	return musicLevel;
-}
+	for (vector<Mix_Chunk*>::iterator it = fx.begin(); it != fx.end(); ++it)
+		Mix_FreeChunk(*it);
 
-bool const ModuleSound::PlayMusicLevel(Mix_Music* song){
-	
-	// Paly music
-	// this funtion return the number channel 
-	if (Mix_PlayMusic(song, -1) != 0)
-		return false;
+	fx.clear();
+	Mix_CloseAudio();
+	Mix_Quit();
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	return true;
-
 }
 
-Mix_Chunk* const ModuleSound::LoadSound(const char* path){
+// Play a music file
+bool ModuleSound::PlayMusic(const char* path, float fade_time)
+{
+	bool ret = true;
 
-	Mix_Chunk *sound = NULL;
+	if (music != nullptr)
+	{
+		if (fade_time > 0.0f)
+		{
+			Mix_FadeOutMusic((int)(fade_time * 1000.0f));
+		}
+		else
+		{
+			Mix_HaltMusic();
+		}
 
-	sound = Mix_LoadWAV(path);
-	if (sound == NULL) {
-		LOG("Problem load sound jump %s\n", Mix_GetError());
-		return NULL;
+		// this call blocks until fade out is done
+		Mix_FreeMusic(music);
 	}
-	return sound;
+
+	music = Mix_LoadMUS(path);
+
+	if (music == nullptr)
+	{
+		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
+		ret = false;
+	}
+	else
+	{
+		if (fade_time > 0.0f)
+		{
+			if (Mix_FadeInMusic(music, -1, (int)(fade_time * 1000.0f)) < 0)
+			{
+				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				ret = false;
+			}
+		}
+		else
+		{
+			if (Mix_PlayMusic(music, -1) < 0)
+			{
+				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
+				ret = false;
+			}
+		}
+	}
+
+	LOG("Successfully playing %s", path);
+	return ret;
 }
 
-bool const ModuleSound::PlaySoundEspecific(Mix_Chunk * sound){
+// Load WAV
+unsigned int ModuleSound::LoadFx(const char* path)
+{
+	unsigned int ret = 0;
+	Mix_Chunk* chunk = Mix_LoadWAV(path);
 
-	Mix_PlayChannel(-1, sound, 0);
-	return true;
+	if (chunk == nullptr)
+	{
+		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
+	}
+	else
+	{
+		fx.push_back(chunk);
+		ret = fx.size() - 1;
+	}
+
+	return ret;
 }
 
+// Play WAV
+bool ModuleSound::PlayFx(unsigned int id, int repeat)
+{
+	bool ret = false;
 
-bool ModuleSound::CleanUp(){
-	
-	// Stop music
-	Mix_HaltMusic();
+	if (id < fx.size())
+	{
+		Mix_PlayChannel(-1, fx[id], repeat);
+		ret = true;
+	}
 
-	// clse library Mix
-	atexit(Mix_CloseAudio);
-
-	// free recurses
-	//Mix_FreeMusic(musicGame);
-
-	return true;
+	return ret;
 }

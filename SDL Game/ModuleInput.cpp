@@ -1,16 +1,22 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleScene.h"
 #include "SDL/include/SDL.h"
 
+#define MAX_KEYS 300
 
-ModuleInput::ModuleInput()
-{}
+ModuleInput::ModuleInput() : Module(), mouse({ 0, 0 }), mouse_motion({ 0, 0 })
+{
+	keyboard = new KeyState[MAX_KEYS];
+	memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
+	memset(mouse_buttons, KEY_IDLE, sizeof(KeyState) * NUM_MOUSE_BUTTONS);
+}
 
 // Destructor
 ModuleInput::~ModuleInput()
-{}
+{
+	RELEASE_ARRAY(keyboard);
+}
 
 // Called before render is available
 bool ModuleInput::Init()
@@ -19,7 +25,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -28,45 +34,96 @@ bool ModuleInput::Init()
 	return ret;
 }
 
-// Called every draw update
-update_status ModuleInput::Update()
+// Called before the first frame
+bool ModuleInput::Start()
 {
-	//SDL_PumpEvents();
-	
-	//keyboard = SDL_GetKeyboardState(NULL);
+	return true;
+}
 
-	//if (keyboard[SDL_SCANCODE_ESCAPE]) {
-		//return UPDATE_STOP;
-	//}
+// Called each loop iteration
+update_status ModuleInput::PreUpdate()
+{
+	static SDL_Event event;
 
-	while (SDL_PollEvent(&my_event)) { // loop list event
-	switch (my_event.type) { // type event
-		 
-		case SDL_KEYDOWN: // keyboard
+	mouse_motion = { 0, 0 };
+	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 
-			 if (my_event.key.keysym.sym == SDLK_ESCAPE) // Escape
-				 return UPDATE_STOP;
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
-			 if (my_event.key.keysym.sym == SDLK_SPACE) // Space
-			 {
-				 LOG("SOUND SOUND SOUND");
-				if(!App->scene->Jump())//return true if sound corret
-					return UPDATE_ERROR;
-
-				 return UPDATE_CONTINUE;
-			 }
-
-		 break;
-		 case SDL_QUIT: //"x" window
-					 return UPDATE_STOP;
-		 break;
-					
+	for (int i = 0; i < MAX_KEYS; ++i)
+	{
+		if (keys[i] == 1)
+		{
+			if (keyboard[i] == KEY_IDLE)
+				keyboard[i] = KEY_DOWN;
+			else
+				keyboard[i] = KEY_REPEAT;
 		}
-	}
+		else
+		{
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+				keyboard[i] = KEY_UP;
+			else
+				keyboard[i] = KEY_IDLE;
+		}
+	}
 
-	// TODO 1: Make the application properly close when ESC is pressed (do not use exit())
+	for (int i = 0; i < NUM_MOUSE_BUTTONS; ++i)
+	{
+		if (mouse_buttons[i] == KEY_DOWN)
+			mouse_buttons[i] = KEY_REPEAT;
 
-	// Homework: Make the application close up when pressing “X” button of the window
+		if (mouse_buttons[i] == KEY_UP)
+			mouse_buttons[i] = KEY_IDLE;
+	}
+
+	while (SDL_PollEvent(&event) != 0)
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			windowEvents[WE_QUIT] = true;
+			break;
+
+		case SDL_WINDOWEVENT:
+			switch (event.window.event)
+			{
+				//case SDL_WINDOWEVENT_LEAVE:
+			case SDL_WINDOWEVENT_HIDDEN:
+			case SDL_WINDOWEVENT_MINIMIZED:
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				windowEvents[WE_HIDE] = true;
+				break;
+
+				//case SDL_WINDOWEVENT_ENTER:
+			case SDL_WINDOWEVENT_SHOWN:
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			case SDL_WINDOWEVENT_RESTORED:
+				windowEvents[WE_SHOW] = true;
+				break;
+			}
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+			mouse_buttons[event.button.button - 1] = KEY_DOWN;
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			mouse_buttons[event.button.button - 1] = KEY_UP;
+			break;
+
+		case SDL_MOUSEMOTION:
+			mouse_motion.x = event.motion.xrel / SCREEN_SIZE;
+			mouse_motion.y = event.motion.yrel / SCREEN_SIZE;
+			mouse.x = event.motion.x / SCREEN_SIZE;
+			mouse.y = event.motion.y / SCREEN_SIZE;
+			break;
+		}
+	}
+
+	if (GetWindowEvent(EventWindow::WE_QUIT) == true || GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		return UPDATE_STOP;
 
 	return UPDATE_CONTINUE;
 }
@@ -74,7 +131,23 @@ update_status ModuleInput::Update()
 // Called before quitting
 bool ModuleInput::CleanUp()
 {
-	LOG("Quitting SDL input event subsystem");
+	LOG("Quitting SDL event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+// ---------
+bool ModuleInput::GetWindowEvent(EventWindow ev) const
+{
+	return windowEvents[ev];
+}
+
+const iPoint& ModuleInput::GetMousePosition() const
+{
+	return mouse;
+}
+
+const iPoint& ModuleInput::GetMouseMotion() const
+{
+	return mouse_motion;
 }
