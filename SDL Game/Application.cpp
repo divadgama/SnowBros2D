@@ -4,9 +4,15 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
-#include "ModuleScene.h"
 #include "ModuleSound.h"
 #include "ModuleFadeToBlack.h"
+#include "ModuleParticles.h"
+#include "ModuleCollision.h"
+#include "ModuleScene.h"
+#include "ModuleDebug.h"
+#include "ModuleBoss.h"
+#include "ModulePlayer.h"
+
 
 using namespace std;
 
@@ -18,11 +24,15 @@ Application::Application()
 	modules.push_back(textures = new ModuleTextures());
 	modules.push_back(sound = new ModuleSound());
 	modules.push_back(fade = new ModuleFadeToBlack());
-
+	modules.push_back(collision = new ModuleCollision());
+	modules.push_back(particles = new ModuleParticles());
 
 	// Game Module logic
 	modules.push_back(scene = new ModuleScene(false));
+	modules.push_back(debug = new ModuleDebug(true));
+	modules.push_back(boss = new ModuleBoss(false));
 
+	modules.push_back(player = new ModulePlayer(false));
 
 	modules.push_back(renderer = new ModuleRender());
 
@@ -58,8 +68,8 @@ bool Application::Start()
 		if ((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
 	}
-	if (first_scene != nullptr)
-		fade->FadeToBlack(first_scene, nullptr, 3.0f);
+	//if (first_scene != nullptr)
+		//fade->FadeToBlack(first_scene, nullptr, 3.0f);
 
 	return ret;
 }

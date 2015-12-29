@@ -42,13 +42,15 @@ enum update_status
 // Configuration -----------
 #define SCREEN_WIDTH 384
 #define SCREEN_HEIGHT 240
-#define FULLSCREEN false
-#define RESIZABLE true
+#define FULLSCREEN true
+#define RESIZABLE false
 #define BORDERLESS false
 #define FULLSCREEN_DESKTOP false
 #define SCREEN_SIZE 3
 #define VSYNC true
 #define TITLE "Snow Bros"
-#define SPRITE_FILE "sprites.png"
-#define SONG_LEVEL1 "Skrillex.mp3"
+#define SCENE_FILE1 "Escenario1.png"
+#define SCENE_FILE2 "Escenario1.png"
+#define SPRITE_FILE "SpriteAnimaciones.png"
+#define SONG_LEVEL "Boss_Yade.mp3"
 #define SOUND_JUMP "jump.wav"

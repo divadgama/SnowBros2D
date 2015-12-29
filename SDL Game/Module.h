@@ -1,6 +1,9 @@
-#pragma once
+#ifndef __MODULE_H__
+#define __MODULE_H__
+
 
 class Application;
+struct Collider;
 
 class Module
 {
@@ -60,9 +63,10 @@ public:
 		return true; 
 	}
 	//check colaider module
-	//virtual void OnCollision(Collider* a, Collider* b)
-	//{}
+	virtual void OnCollision(Collider* a, Collider* b)
+	{}
 
 private:
 	bool active = true;
 };
+#endif // __MODULE_H__

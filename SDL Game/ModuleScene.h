@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Globals.h"
 #include "Module.h"
 #include "ModuleTextures.h"

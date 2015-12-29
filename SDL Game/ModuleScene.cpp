@@ -1,5 +1,11 @@
 #include "ModuleScene.h"
 #include "Application.h"
+#include "ModulePlayer.h"
+#include "ModuleSound.h"
+#include "ModuleCollision.h"
+#include "ModuleFadeToBlack.h"
+#include "ModuleRender.h"
+#include "ModuleTextures.h"
 
 ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
 {
@@ -15,13 +21,13 @@ bool ModuleScene::Start(){
 
 	LOG("Scene Start.............");
 	
-	texturePlayer = App->textures->Load("../Game/"SPRITE_FILE);// load texture player 
+	texturePlayer = App->textures->Load("../Game/"SCENE_FILE1);// load texture player 
 	if (texturePlayer==NULL){
 		LOG("Texture player don't load")
 		return false;
 	}
-	App->sound->PlayMusic("../Game/"SONG_LEVEL1, 1.0f);
-	
+	//App->sound->PlayMusic("../Game/"SONG_LEVEL1, 1.0f);
+	App->player->Enable();
     return true;
 }
 

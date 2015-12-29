@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APPLICATION_CPP__
+#define __APPLICATION_CPP__
 
 #include<list>
 #include "Globals.h"
@@ -8,9 +9,15 @@ class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
-class ModuleScene;
 class ModuleSound;
 class ModuleFadeToBlack;
+class ModuleParticles;
+class ModuleCollision;
+
+class ModuleScene;
+class ModuleDebug;
+class ModuleBoss;
+class ModulePlayer;
 
 class Application
 {
@@ -34,9 +41,15 @@ public:
 	
 	ModuleSound* sound;
 	ModuleFadeToBlack* fade;
+	ModuleParticles* particles;
+	ModuleCollision* collision;
 
 	//module logic game
 	ModuleScene* scene;
+	ModuleDebug* debug;
+	ModuleBoss* boss;
+	ModulePlayer* player;
+
 private:
 
 	std::list<Module*> modules;
@@ -44,3 +57,5 @@ private:
 };
 
 extern Application* App;
+
+#endif // __APPLICATION_CPP__
