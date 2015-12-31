@@ -33,12 +33,12 @@ bool ModuleDebug::Start(){
 
 	App->collision->AddCollider({ 0, 0,1, 240 }, COLLIDER_WALL);
 	App->collision->AddCollider({ 267, 0, 1, 240 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 0,223,270,17}, COLLIDER_WALL);
-	App->collision->AddCollider({ 0, 89, 118, 17 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 50, 123, 100, 17 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 0, 156, 118, 17 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 50, 189, 100, 17 }, COLLIDER_WALL);
-	App->collision->AddCollider({ 184, 139, 83, 34 }, COLLIDER_WALL);
+	App->collision->AddCollider({ 0, 223, 270, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 0, 89, 118, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 50, 123, 100, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 0, 156, 118, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 50, 189, 100, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 184, 139, 83, 2 }, COLLIDER_GROUND);
 	
 	return true;
 }

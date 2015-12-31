@@ -27,6 +27,7 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	Collider* collider = nullptr;
+	Collider* colliderGround = nullptr;
 	Animation* current_animation = nullptr;
 	Animation idleright;
 	Animation idleleft;
@@ -36,8 +37,7 @@ public:
 	Animation downleft;
 	Animation walkleft;
 	Animation walkright;
-	//Particle explosion;
-	//Particle laser;
+	Particle shot;
 	bool direction = true;//direction true = right false = left
 	bool finished = false;
 	iPoint position;

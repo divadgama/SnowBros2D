@@ -30,11 +30,11 @@ update_status ModuleParticles::PostUpdate()
 		else if (p->timer.Read() > p->delay)
 		{
 			App->renderer->Blit(p->graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
-			if (p->fx_played == false)
+		/*	if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->sound->PlayFx(p->fx);
-			}
+			}*/
 		}
 		++it;
 	}
@@ -94,8 +94,8 @@ bool Particle::Update()
 		if (anim.Finished())
 			ret = false;
 
-	position.x += speed.x;
-	position.y += speed.y;
+	//position.x += speed.x;
+	//position.y += speed.y;
 
 	if (collider != NULL)
 	{
