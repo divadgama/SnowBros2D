@@ -17,6 +17,7 @@ class ModuleCollision;
 class ModuleScene;
 class ModuleDebug;
 class ModuleBoss;
+class ModuleEnemy;
 class ModulePlayer;
 
 class Application
@@ -48,6 +49,7 @@ public:
 	ModuleScene* scene;
 	ModuleDebug* debug;
 	ModuleBoss* boss;
+	ModuleEnemy* enemy;
 	ModulePlayer* player;
 
 private:

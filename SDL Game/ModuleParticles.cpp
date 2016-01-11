@@ -56,18 +56,38 @@ void ModuleParticles::OnCollision(Collider* c1, Collider* c2)
 	}
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
+void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay,bool direction)
 {
 	Particle* p = new Particle(particle);
 	p->timer.Start();
 	p->position.x = x;
 	p->position.y = y;
 	p->delay = delay;
+	p->direction = direction;
 
 	if (collider_type != COLLIDER_NONE)
 	{
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
 	}
+
+	if (collider_type == COLLIDER_PLAYER_SHOT)
+	{
+		if (p->direction){
+			p->anim.frames.push_back({ 0, 11, 6, 8 });
+			p->anim.frames.push_back({ 11, 11, 6, 8 });
+			p->anim.loop = true;
+			p->anim.speed = 0.1f;
+		}
+		else
+		{
+			p->anim.frames.push_back({ 0, 1, 6, 8 });
+			p->anim.frames.push_back({ 11, 1, 6, 8 });
+			p->anim.loop = true;
+			p->anim.speed = 0.1f;
+		}
+	}
+	
+
 
 	active.push_back(p);
 }
@@ -94,8 +114,17 @@ bool Particle::Update()
 		if (anim.Finished())
 			ret = false;
 
-	//position.x += speed.x;
-	//position.y += speed.y;
+	if (direction){
+
+		position.x += speed.x;
+		position.y += speed.y;
+	
+	}
+	else
+	{
+		position.x -= speed.x;
+		position.y += speed.y;
+	}
 
 	if (collider != NULL)
 	{

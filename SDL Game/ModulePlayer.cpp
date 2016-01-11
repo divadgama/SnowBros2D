@@ -51,18 +51,16 @@ ModulePlayer::ModulePlayer(bool start_enable) : Module(start_enable)
 	jumpright.speed = 0.1f;
 
 	// Move down right
-	downright.frames.push_back({ 33, 1, 32, 14 });
-	downright.frames.push_back({ 0, 1, 32, 14 });
+	downright.frames.push_back({ 6, 38, 21, 30 });
 	downright.loop = false;
 	downright.speed = 0.1f;
 
 	// Move down left
-	downright.frames.push_back({ 33, 1, 32, 14 });
-	downright.frames.push_back({ 0, 1, 32, 14 });
-	downright.loop = false;
-	downright.speed = 0.1f;
+	downleft.frames.push_back({ 251, 38, 21, 30 });
+	downleft.loop = false;
+	downleft.speed = 0.1f;
 
-	// Laser particle
+	// shot particle
 	shot.anim.frames.push_back({ 199, 4, 21, 30 });
 	shot.anim.frames.push_back({ 199, 4, 21, 30 });
 	shot.speed.x = 7;
@@ -85,14 +83,14 @@ bool ModulePlayer::Start()
 	position.x = 15;
 	position.y = 12;
 
-	SDL_Texture* particles = App->textures->Load("../Game/Animation/"SPRITE_FILE);
+	SDL_Texture* particles = App->textures->Load("../Game/Animation/"SHOT_FILE);
 	shot.graphics = particles;
 
 	//explosion.fx = App->audio->LoadFx("explosion.wav");
 	//laser.fx = App->audio->LoadFx("slimeball.wav");
 
-	collider = App->collision->AddCollider({ 0, 0, 19, 24 }, COLLIDER_PLAYER, this);
-	colliderGround = App->collision->AddCollider({ 0, 0, 10, 2 }, COLLIDER_PLAYER, this);
+	collider = App->collision->AddCollider({ 500, 500, 19, 24 }, COLLIDER_PLAYER, this);
+	colliderGround = App->collision->AddCollider({ 502, 503, 10, 2 }, COLLIDER_PLAYER, this);
 	finished = false;
 	current_animation = &idleright;
 	return true;
@@ -107,30 +105,19 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
-
-update_status ModulePlayer::Update()
-{
+update_status ModulePlayer::PreUpdate(){
 	int speed = 1;
-	
-	if (finished == true){//dead player
+	++position.y;//gravedad
 
-		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
-		return UPDATE_CONTINUE;
-	}
-
-
-		
-
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_UP)
 	{
-		if (direction)
-			direction = false;
-		if (current_animation != &walkleft)
-		{
-			downright.Reset();
-			current_animation = &walkleft;
+		if (direction){
+			App->particles->AddParticle(shot, position.x, position.y +5, COLLIDER_PLAYER_SHOT,0,direction);
 		}
-		position.x -= speed;
+		else
+		{
+			App->particles->AddParticle(shot, position.x, position.y +5, COLLIDER_PLAYER_SHOT,0,direction);
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
@@ -143,19 +130,78 @@ update_status ModulePlayer::Update()
 			current_animation = &walkright;
 		}
 		position.x += speed;
+		return UPDATE_CONTINUE;
 	}
 
-
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
+		if (direction)
+			direction = false;
+		if (current_animation != &walkleft)
+		{
+			downright.Reset();
+			current_animation = &walkleft;
+		}
+		position.x -= speed;
+		return UPDATE_CONTINUE;
+	}
+
+	
+	
+	if (direction)
+		{
+			current_animation = &idleright;
+		}
+	else
+		{
+			current_animation = &idleleft;
+		}
+	
+	return UPDATE_CONTINUE;
+}
+
+update_status ModulePlayer::Update()
+{
+	
+	
+	if (finished == true){//dead player
+		//comprobar las vidas y dependiendo de las que te queden salie a pantalla principal
+
+
+		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+		return UPDATE_CONTINUE;
+	}
+
+	if (jump){
+		
 		if (direction){
-			App->particles->AddParticle(shot, position.x+24, position.y+15, COLLIDER_PLAYER_SHOT);
+			if (current_animation != &jumpright)
+			{
+				jumpright.Reset();
+				current_animation = &jumpright;
+			}
 		}
 		else
-		{
-			App->particles->AddParticle(shot, position.x, position.y+15, COLLIDER_PLAYER_SHOT);
+		{//cargar animacion salto
+		/*	if (current_animation != &jumpleft)
+			{
+				jumpleft.Reset();
+				current_animation = &jumpleft;
+			}*/
 		}
+		App->renderer->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));	
+	
+		if (frameAnimacion < 6){
+			position.y -= 6;
+			++frameAnimacion;
+		}
+		else{
+			jump = false;
+		}
+		return UPDATE_CONTINUE;
 	}
+
+	
 
 
 	/*if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
@@ -184,18 +230,20 @@ update_status ModulePlayer::Update()
 			current_animation = &jumpright;
 	}*/
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_J) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_D) == KEY_IDLE)
-	{
+	if (!collidingGround){
+		
 		if (direction)
 		{
-			current_animation = &idleright;
+			current_animation = &downright;
 		}
 		else
 		{
-			current_animation = &idleleft;
-		}
+			current_animation = &downleft;
+		}	
 	}
-	++position.y;
+	
+	
+	collidingGround = false;
 
 	collider->SetPos(position.x, position.y);
 	colliderGround->SetPos(position.x+5, position.y+25);
@@ -219,15 +267,25 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		}
 		
 	}
+
+	if (c1 == collider && c2->type == COLLIDER_BOSS)
+	{
+		LOG("lost life");
+		//App->particles->AddParticle(explosion, position.x, position.y, COLLIDER_NONE);
+		//App->fade->FadeToBlack((Module*)App->scene_intro, (Module*)App->scene_space, 1.0f);
+		
+
+	}
+
 	if (c1 == colliderGround && c2->type == COLLIDER_GROUND){
 		
+		collidingGround = true;
 		--position.y;
 
 		if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
 		{
-			for (int i = 0; i < 6; ++i){
-				position.y -= 6;
-			}	
+			frameAnimacion = 0;
+			jump = true;
 		}
 
 		

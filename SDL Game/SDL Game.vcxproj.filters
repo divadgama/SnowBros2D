@@ -70,6 +70,9 @@
     <ClInclude Include="ModulePlayer.h">
       <Filter>Game Module</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleEnemy.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -118,6 +121,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModulePlayer.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEnemy.cpp">
       <Filter>Game Module</Filter>
     </ClCompile>
   </ItemGroup>

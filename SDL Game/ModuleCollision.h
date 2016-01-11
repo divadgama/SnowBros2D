@@ -13,6 +13,7 @@ enum COLLIDER_TYPE
 	COLLIDER_ENEMY,
 	COLLIDER_PLAYER_SHOT,
 	COLLIDER_BOSS,
+	COLLIDER_POINT,
 
 	COLLIDER_MAX
 };
@@ -20,6 +21,7 @@ enum COLLIDER_TYPE
 struct Collider
 {
 	SDL_Rect rect;
+	bool active;
 	bool to_delete;
 	COLLIDER_TYPE type;
 	Module* callback;
@@ -28,7 +30,8 @@ struct Collider
 		rect(rectangle),
 		type(type),
 		callback(callback),
-		to_delete(false)
+		to_delete(false),
+		active(true)
 	{}
 
 	void SetPos(int x, int y)
@@ -53,7 +56,6 @@ public:
 	bool CleanUp();
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = NULL);
-
 private:
 
 	std::list<Collider*>	colliders;

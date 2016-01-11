@@ -20,6 +20,7 @@ public:
 	~ModulePlayer();
 
 	bool Start();
+	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
@@ -39,6 +40,9 @@ public:
 	Animation walkright;
 	Particle shot;
 	bool direction = true;//direction true = right false = left
+	bool jump = false;
+	bool collidingGround = false;
+	int frameAnimacion = 0;
 	bool finished = false;
 	iPoint position;
 
