@@ -30,11 +30,11 @@ update_status ModuleParticles::PostUpdate()
 		else if (p->timer.Read() > p->delay)
 		{
 			App->renderer->Blit(p->graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
-		/*	if (p->fx_played == false)
+			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				App->sound->PlayFx(p->fx);
-			}*/
+			}
 		}
 		++it;
 	}
@@ -70,25 +70,6 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, COLLID
 		p->collider = App->collision->AddCollider({ p->position.x, p->position.y, 0, 0 }, collider_type, this);
 	}
 
-	if (collider_type == COLLIDER_PLAYER_SHOT)
-	{
-		if (p->direction){
-			p->anim.frames.push_back({ 0, 11, 6, 8 });
-			p->anim.frames.push_back({ 11, 11, 6, 8 });
-			p->anim.loop = true;
-			p->anim.speed = 0.1f;
-		}
-		else
-		{
-			p->anim.frames.push_back({ 0, 1, 6, 8 });
-			p->anim.frames.push_back({ 11, 1, 6, 8 });
-			p->anim.loop = true;
-			p->anim.speed = 0.1f;
-		}
-	}
-	
-
-
 	active.push_back(p);
 }
 
@@ -105,27 +86,28 @@ bool Particle::Update()
 {
 	bool ret = true;
 
-	if (life > 0)
-	{
-		if (timer.Read() > delay + life)
-			ret = false;
-	}
-	else
-		if (anim.Finished())
-			ret = false;
-
 	if (direction){
-
-		position.x += speed.x;
-		position.y += speed.y;
-	
+		if (timer.Read() - delayX >10){
+			delayX = timer.Read();
+			position.x += (int)(speed.x *cos(45));
+		}
+		if (timer.Read() - delayY > 50){
+			delayY = timer.Read();
+			position.y -= (int)(-0.5 * 9.81 + speed.x * sin(270));
+		}
 	}
 	else
 	{
-		position.x -= speed.x;
-		position.y += speed.y;
+		if (timer.Read() - delayX >10){
+			delayX = timer.Read();
+			position.x -= (int)(speed.x *cos(45));
+		}
+		if (timer.Read() - delayY > 50){
+			delayY = timer.Read();
+			position.y -= (int)(-0.5 * 9.81 + speed.x * sin(270));
+		}
 	}
-
+	
 	if (collider != NULL)
 	{
 		SDL_Rect r = anim.PeekCurrentFrame();

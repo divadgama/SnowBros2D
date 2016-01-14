@@ -67,6 +67,10 @@ bool ModuleSound::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	return true;
 }
+void ModuleSound::StopMusic(){
+	Mix_FreeMusic(music);
+	music = nullptr;
+}
 
 // Play a music file
 bool ModuleSound::PlayMusic(const char* path, float fade_time)

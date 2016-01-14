@@ -15,6 +15,9 @@ class ModuleParticles;
 class ModuleCollision;
 
 class ModuleScene;
+class ModuleGame;
+class ModuleSceneGameOver;
+class ModuleSceneEnd;
 class ModuleDebug;
 class ModuleBoss;
 class ModuleEnemy;
@@ -48,6 +51,9 @@ public:
 	//module logic game
 	ModuleScene* scene;
 	ModuleDebug* debug;
+	ModuleSceneEnd* gameEnd;
+	ModuleGame* game;
+	ModuleSceneGameOver * gameOver;
 	ModuleBoss* boss;
 	ModuleEnemy* enemy;
 	ModulePlayer* player;

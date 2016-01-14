@@ -61,9 +61,6 @@
     <ClInclude Include="ModuleBoss.h">
       <Filter>Game Module</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleDebug.h">
-      <Filter>Game Module</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleCollision.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -71,6 +68,18 @@
       <Filter>Game Module</Filter>
     </ClInclude>
     <ClInclude Include="ModuleEnemy.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSceneGameOver.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleSceneEnd.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleDebug.h">
+      <Filter>Game Module</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleGame.h">
       <Filter>Game Module</Filter>
     </ClInclude>
   </ItemGroup>
@@ -114,9 +123,6 @@
     <ClCompile Include="ModuleBoss.cpp">
       <Filter>Game Module</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleDebug.cpp">
-      <Filter>Game Module</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleCollision.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -124,6 +130,18 @@
       <Filter>Game Module</Filter>
     </ClCompile>
     <ClCompile Include="ModuleEnemy.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSceneGameOver.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleSceneEnd.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleDebug.cpp">
+      <Filter>Game Module</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleGame.cpp">
       <Filter>Game Module</Filter>
     </ClCompile>
   </ItemGroup>

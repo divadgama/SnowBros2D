@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __GLOBAL_H__
+#define __GLOBAL_H__
 #include <windows.h>
 #include <stdio.h>
 
@@ -53,5 +54,23 @@ enum update_status
 #define SCENE_FILE2 "Escenario2.png"
 #define SPRITE_FILE "SpriteAnimaciones.png"
 #define SHOT_FILE "ShotSprites.png"
+#define SCENE_END "Congratulations.png"
+#define SCENE_GAMEOVER "GameOver.png"
+#define SCENE_FIRST "PantallaInicio.png"
+#define SCENE_HEAD "Cabecera.png"
+#define SCENE_LIFE2 "life2.png"
+#define SCENE_LIFE1 "life1.png"
+#define SCENE_LIFE0 "life0.png"
+
+//music and effect
 #define SONG_LEVEL "Boss_Yade.mp3"
-#define SOUND_JUMP "jump.wav"
+#define SONG_FIRST "Inicio.mp3"
+#define SONG_END "Ending.mp3"
+#define SONG_GAMEOVER "GameOver.mp3"
+#define SOUND_JUMP "Jump.wav"
+#define SOUND_BOSSDANO "BossDano.wav"
+#define SOUND_CHOQUEBALL "ChoqueBola.wav"
+#define SOUND_DIE "Muerte.wav"
+#define SOUND_BALLBROKEN "RompeBola.wav"
+#define SOUND_SHOT "Shot.wav"
+#endif //__GLOBAL_H__

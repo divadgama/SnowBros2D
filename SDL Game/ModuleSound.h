@@ -21,6 +21,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
+	void StopMusic();
+	
 	// Play a music file
 	bool PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
 

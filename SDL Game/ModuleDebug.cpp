@@ -42,6 +42,8 @@ bool ModuleDebug::Start(){
 	App->collision->AddCollider({ 0, 156, 118, 2 }, COLLIDER_GROUND);
 	App->collision->AddCollider({ 50, 189, 100, 2 }, COLLIDER_GROUND);
 	App->collision->AddCollider({ 184, 139, 83, 2 }, COLLIDER_GROUND);
+	App->collision->AddCollider({ 0, 0, 3, 190 }, COLLIDER_WALL_ENEMY);
+	App->collision->AddCollider({ 265, 0, 3, 190 }, COLLIDER_WALL_ENEMY);
 	
 	return true;
 }

@@ -46,6 +46,10 @@ public:
 	{
 		current_frame = 0;
 	}
+	
+	int NumFrames(){
+		return (int)current_frame;
+	}
 };
 
 #endif // __ANIMATION_H__

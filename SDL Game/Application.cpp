@@ -10,6 +10,9 @@
 #include "ModuleCollision.h"
 #include "ModuleScene.h"
 #include "ModuleDebug.h"
+#include "ModuleGame.h"
+#include "ModuleSceneGameOver.h"
+#include "ModuleSceneEnd.h"
 #include "ModuleBoss.h"
 #include "ModuleEnemy.h"
 #include "ModulePlayer.h"
@@ -30,9 +33,12 @@ Application::Application()
 
 	// Game Module logic
 	modules.push_back(scene = new ModuleScene(false));
-	modules.push_back(debug = new ModuleDebug(true));
+	modules.push_back(debug = new ModuleDebug(false));
+	modules.push_back(game = new ModuleGame(false));
+	modules.push_back(gameOver = new ModuleSceneGameOver(false));
+	modules.push_back(gameEnd = new ModuleSceneEnd(false));
 
-	modules.push_back(enemy = new ModuleEnemy(false));
+	modules.push_back(enemy = new ModuleEnemy());
 	modules.push_back(boss = new ModuleBoss(false));
 
 	modules.push_back(player = new ModulePlayer(false));
@@ -71,8 +77,8 @@ bool Application::Start()
 		if ((*it)->IsEnabled() == true)
 			ret = (*it)->Start();
 	}
-	//if (first_scene != nullptr)
-		//fade->FadeToBlack(first_scene, nullptr, 3.0f);
+	if (first_scene != nullptr)
+		fade->FadeToBlack(first_scene, nullptr, 3.0f);
 
 	return ret;
 }

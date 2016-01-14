@@ -20,6 +20,8 @@ struct Particle
 	iPoint speed = { 0, 0};
 	Timer timer;
 	uint32 delay;
+	uint32 delayX;
+	uint32 delayY;
 	uint32 born = 0;
 	uint32 life = 0;
 	bool fx_played = false;
