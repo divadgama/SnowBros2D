@@ -1,9 +1,29 @@
-﻿Build started 14/01/2016 11:33:09.
+﻿Build started 14/01/2016 13:26:59.
      1>Project "C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\SDL Game.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (SDL Game - Master 1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\David\Desktop\Visual Leak Detector\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ModulePlayer.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\David\Desktop\Visual Leak Detector\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Application.cpp log.cpp Main.cpp ModuleBoss.cpp ModuleCollision.cpp ModuleDebug.cpp ModuleEnemy.cpp ModuleFadeToBlack.cpp ModuleGame.cpp ModuleInput.cpp ModuleParticles.cpp ModulePlayer.cpp ModuleRender.cpp ModuleScene.cpp ModuleSceneEnd.cpp ModuleSceneGameOver.cpp ModuleSound.cpp ModuleTextures.cpp ModuleWindow.cpp Timer.cpp
+         Timer.cpp
+         ModuleWindow.cpp
+         ModuleTextures.cpp
+         ModuleSound.cpp
+         ModuleSceneGameOver.cpp
+         ModuleSceneEnd.cpp
+         ModuleScene.cpp
+         ModuleRender.cpp
          ModulePlayer.cpp
+         ModuleParticles.cpp
+         ModuleInput.cpp
+         ModuleGame.cpp
+         ModuleFadeToBlack.cpp
+         ModuleEnemy.cpp
+         ModuleDebug.cpp
+         ModuleCollision.cpp
+         ModuleBoss.cpp
+         Main.cpp
+         log.cpp
+         Application.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\Debug\SDLSnowBros.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\David\Desktop\Visual Leak Detector\lib\Win32" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win32" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\Debug\SDLSnowBros.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\Debug\SDLSnowBros.lib" /MACHINE:X86 Debug\Application.obj
          Debug\log.obj
@@ -25,9 +45,10 @@
          Debug\ModuleTextures.obj
          Debug\ModuleWindow.obj
          Debug\Timer.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
          SDL Game.vcxproj -> C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\Debug\SDLSnowBros.exe
      1>Done Building Project "C:\Users\David\Documents\GitHub\SnowBros2D\SDL Game\SDL Game.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.73
+Time Elapsed 00:00:08.25
