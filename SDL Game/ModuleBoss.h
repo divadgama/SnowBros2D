@@ -13,7 +13,7 @@ struct Collider;
 struct Enemy;
 
 class ModuleBoss : public Module
-{
+{ 
 public:
 	ModuleBoss(bool start_enabled = true);
 	~ModuleBoss();
